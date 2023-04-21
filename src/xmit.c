@@ -76,6 +76,7 @@
 #include "dtmf.h"
 #include "xid.h"
 #include "server.h"
+#include "kiss_frame.h"
 
 
 /*
@@ -711,12 +712,11 @@ static void xmit_ax25_frames (int chan, int prio, packet_t pp, int max_bundle)
 
         unsigned char ACK[60];          // Should never get more that one outstanding ackmode frame, but to be safe..
         int acklen = 0;
-        int Client;
-	struct kissport_status_s *kps;
+        int Client = 0;
+        struct kissport_status_s *kps = malloc(sizeof(struct kissport_status_s));
 
 	int nb;
 
-#define FEND 0xc0
 /* 
  * Turn on transmitter.
  * Start sending leading flag bytes.
@@ -766,7 +766,6 @@ static void xmit_ax25_frames (int chan, int prio, packet_t pp, int max_bundle)
                 if (pp->KISSCMD == 12)          // ACKMODE
                 {
                         // return an ack
- 
                         ACK[acklen++] = FEND;
                         ACK[acklen++] = pp->KISSCMD;
                         memcpy(&ACK[acklen], &pp->ACK, 2);
