@@ -772,8 +772,12 @@ static void xmit_ax25_frames (int chan, int prio, packet_t pp, int max_bundle)
                         acklen += 2;
                         ACK[acklen++] = FEND;
  
+#if DEBUG
+	                text_color_set(DW_COLOR_DEBUG);
+	                dw_printf ("\nxmit_thread: t=%.3f ACKMODE CLIENT %d SOCKET %d CHANNEL %d PORT %d.\n\n",dtime_now()-time_ptt,pp->Client,pp->KPS->client_sock[Client],pp->KPS->chan,pp->KPS->tcp_port);
+#endif
                         Client = pp->Client;
-			kps = pp->KPS;
+			memcpy(kps, pp->KPS, sizeof(struct kissport_status_s));
                 }
 	ax25_delete (pp);
 

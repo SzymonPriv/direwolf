@@ -146,7 +146,7 @@ struct packet_s {
         char Client;                    // So we can send ack to right one
         unsigned char KISSCMD;  // KISS command byte (0 or 12 for ackmode)
         unsigned short ACK       ;      // ACK value for Ackmode
-	struct kissport_status_s *KPS ; // Needed for multi TNC support
+	struct kissport_status_s *KPS ; // Needed for ackmode support on multiport
 };
 
 
